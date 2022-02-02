@@ -5,3 +5,6 @@ declare module 'kepler.gl/reducers';
 declare module 'kepler.gl/middleware';
 declare module 'kepler.gl';
 declare module 'react-palm/tasks';
+declare module 'kepler.gl/actions';
+// haha found out you can do this... that took a second haha...
+declare module 'kepler.gl/*';

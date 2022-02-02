@@ -15,7 +15,10 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 
 ## Kepler.gl
 * *Kepler.gl is a library that allows us to visualize geo-data in a map.* It uses the concepts of layers, sources, and mapbox-gl to visualize data. It is a react component that works with Redux!
-* **Project Usage**: The library requires key to use mapbox api. Since this is a demo, we will just bake the api key in 😢. In production, we would implement authentication/authorization and access a backend api to get access token.
+* **Project Usage**: 
+* The library requires key to use mapbox api. Since this is a demo, we will just bake the api key in 😢. In production, we would implement authentication/authorization and access a backend api to get access token.
+* The kepler.gl version used doesn't have types unfortunately. It looks like this will change in the future, as of dec 31, 2022 typescript types are being added on the official kepler.gl repo.
 
 ## Modeling ArcGIS query
 * *The ArcGIS API is a RESTful API that allows us to query data from a geospatial database.*
+* **Project Usage:** We request 
