@@ -3,8 +3,8 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 # Game Plan:
 * Add Redux: ✅
 * Add Kepler.gl (mapbox): ✅
-* Model ArcGIS query using typescript
-* Visualize data using Kepler.gl
+* Model ArcGIS query using typescript: ✅
+* Visualize data using Kepler.gl: ✅
 * Write tests
 * Write retrospective
 
@@ -21,4 +21,10 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 
 ## Modeling ArcGIS query
 * *The ArcGIS API is a RESTful API that allows us to query data from a geospatial database.*
-* **Project Usage:** We request 
+
+### Todo:
+*bugs*:
+* ~~ Get the app to resize if the window is resized. ~~ fixed!
+*features*: 
+* Add component to change the info fetched from the API.
+* Figure out how to change the default displaying datapoints

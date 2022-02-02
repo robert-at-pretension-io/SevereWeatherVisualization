@@ -1,4 +1,4 @@
-import React from "react";
+import {useState, useEffect} from "react";
 
 import KeplerGl from "kepler.gl";
 
@@ -18,7 +18,48 @@ import {processGeojson} from 'kepler.gl/processors';
 // Found a great tutorial on how to use kepler.gl here:
 // https://codesandbox.io/s/bv0vb?file=/src/App.tsx
 
+
+// resize component as window resizes
+// found here: https://dev.to/vitaliemaldur/resize-event-listener-using-react-hooks-1k0c
+// It's not too bad, just listens for the window to resize and then sets the state to the new width!
+
+
+
+
 const Map = () => {
+
+  const getWidth = () => window.innerWidth 
+  || document.documentElement.clientWidth 
+  || document.body.clientWidth;
+
+function useCurrentWidth() {
+  // save current window width in the state object
+  let [width, setWidth] = useState(getWidth());
+
+  // in this case useEffect will execute only once because
+  // it does not have any dependencies.
+  useEffect(() => {
+    const resizeListener = () => {
+      // change width from the state object
+      setWidth(getWidth())
+    };
+    // set resize listener
+    window.addEventListener('resize', resizeListener);
+
+    // clean up function
+    return () => {
+      // remove resize listener
+      window.removeEventListener('resize', resizeListener);
+    }
+  }, [])
+
+  return width;
+}
+
+  let width = useCurrentWidth();
+
+
+
   // We will load the query data here temporarily!
   const dispatch = useDispatch();
   const { data } = useSwr("weather", async () => {
@@ -31,7 +72,7 @@ const Map = () => {
     return processGeojson(data);
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data) {
       dispatch(
         addDataToMap({
@@ -71,7 +112,7 @@ const Map = () => {
     <KeplerGl
       id="weather"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_API_KEY}
-      width={window.innerWidth}
+      width={width}
       height={window.innerHeight}
     />
   );
