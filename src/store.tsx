@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import keplerGlReducer from 'kepler.gl/reducers';
-import {enhanceReduxMiddleware} from 'kepler.gl/middleware';
+// import {enhanceReduxMiddleware} from 'kepler.gl/middleware';
 import { taskMiddleware } from "react-palm/tasks";
 
 // Found good documentation for setting up keplerGlReducer here:

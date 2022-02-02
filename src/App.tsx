@@ -1,8 +1,8 @@
-import React from "react";
+// import React from "react";
 // import './App.css';
 import KeplerGl from "kepler.gl";
 // Dispatching is used to send actions to the store from anywhere in the app... This means it'll be easier to extract to separate components when the app grows. For now, it's not essential to move outside of the App component because this is a small demo.
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 // Found a great tutorial on how to use kepler.gl here:
 // https://codesandbox.io/s/bv0vb?file=/src/App.tsx
