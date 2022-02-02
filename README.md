@@ -11,3 +11,6 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 ## Redux
 * *Redux is a library that allows us to manage global state in our React application.* It uses the concepts of stores, reducers, actions, and dispatching to manage state. By keeping the state immutable (read-only), it is easier to debug the code later on by sending detailed error messages to the server -- the developer debugging the code can step through the state the user had that lead to the error.
 * We will use React-Redux with a model of the data we get from the ArcGIS API. In order to easily debug the code, we will define the model using typescript.
+
+## Kepler.gl
+* Requires access token key to use map api. Since this is a demo, we will just bake the api key in 😢. In production, we would implement authentication/authorization and access a backend api (using oAuth) to get the key during runtime.
