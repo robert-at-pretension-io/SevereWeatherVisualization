@@ -5,13 +5,15 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 * Add Kepler.gl (mapbox): ✅
 * Model ArcGIS query using typescript: ✅
 * Visualize data using Kepler.gl: ✅
-* Write tests
+* Make custom kepler.gl component to make/submit query
+* Refactor
 * Write retrospective
 
 # Notes on the project:
 ## Redux
 * *Redux is a library that allows us to manage global state in our React application.* It uses the concepts of stores, reducers, actions, and dispatching to manage state. By keeping the state immutable (read-only), it is easier to debug the code later on by sending detailed error messages to the server -- the developer debugging the code can step through the state the user had that lead to the error.
-* **Project Usage:** We will use React-Redux with a model of the data we get from the ArcGIS API. In order to easily debug the code, we will define the model using typescript.
+* **Project Usage:** 
+* We will use React-Redux with a model of the data we get from the ArcGIS API. In order to easily debug the code, we will define the model using typescript.
 
 ## Kepler.gl
 * *Kepler.gl is a library that allows us to visualize geo-data in a map.* It uses the concepts of layers, sources, and mapbox-gl to visualize data. It is a react component that works with Redux!
@@ -21,6 +23,8 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 
 ## Modeling ArcGIS query
 * *The ArcGIS API is a RESTful API that allows us to query data from a geospatial database.*
+* **Project Usage:**
+* We will have a custom header component that will make a query to the ArcGIS API. The query will be based on the user's input.
 
 ### Todo:
 *bugs*:
