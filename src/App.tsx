@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import KeplerGl from "kepler.gl";
+// import KeplerGl from "kepler.gl";
 
 // This is a redux action
 import { addDataToMap } from "kepler.gl/actions";
@@ -14,7 +14,9 @@ import useSwr from "swr";
 // This utility function is used to parse the data from the API into the format that kepler.gl expects. That is from GeoJSON to object like: {fields : [], rows: []}
 import { processGeojson } from "kepler.gl/processors";
 
-
+// This is used to create a custom kepler.gl component. This component will be responsible for adding data search functionality to query the ArcGIS API.
+import {injectComponents, PanelHeaderFactory} from 'kepler.gl/components';
+// import Header from "./components/header";
 // Found a great tutorial on how to use kepler.gl here:
 // https://codesandbox.io/s/bv0vb?file=/src/App.tsx
 
@@ -130,6 +132,23 @@ const Map = () => {
       );
     }
   }, [dispatch, data]);
+
+
+// This is the custom kepler.gl component that will be injected into the map.
+// Code found here: https://docs.kepler.gl/docs/api-reference/advanced-usages/replace-ui-component
+
+const CustomHeader = () => (<div>My kepler.gl app</div>);
+
+// create a factory
+const myCustomHeaderFactory = () => CustomHeader;
+
+// Inject custom header into Kepler.gl,
+const KeplerGl = injectComponents([
+  [PanelHeaderFactory, myCustomHeaderFactory]
+]);
+
+
+
   return (
     <KeplerGl
       id="weather"
