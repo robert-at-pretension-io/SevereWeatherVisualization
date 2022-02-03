@@ -8,13 +8,12 @@ import { addDataToMap } from "kepler.gl/actions";
 // Dispatching is used to send redux actions to update the state in the store from anywhere in the app... This means it'll be easier to extract to separate components when the app grows. For now, it's not essential to move outside of the App component because this is a small demo.
 import { useDispatch } from "react-redux";
 
-// This is a react hook that allows us to fetch data. swr stands for stale-while-revalidate. Drastically simplifies the logic of fetching data in a react app! Created by the team behind Next.js
+// This is a custom react hook that allows us to fetch data. swr stands for stale-while-revalidate. Drastically simplifies the logic of fetching data in a react app! Created by the team behind Next.js
 import useSwr from "swr";
 
 // This utility function is used to parse the data from the API into the format that kepler.gl expects. That is from GeoJSON to object like: {fields : [], rows: []}
 import { processGeojson } from "kepler.gl/processors";
 
-import { keplerGlConfig } from "kepler.gl/config";
 
 // Found a great tutorial on how to use kepler.gl here:
 // https://codesandbox.io/s/bv0vb?file=/src/App.tsx
@@ -37,8 +36,7 @@ let config = {
           config: {
             dataId: "weather",
             label: "weather",
-            color: [255, 203, 153],
-            highlightColor: [252, 242, 26, 255],
+            
             columns: { geojson: "_geojson" },
             isVisible: true,
             visConfig: {
@@ -57,43 +55,12 @@ let config = {
               enable3d: false,
               wireframe: false,
             },
-            hidden: false,
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: "start",
-                alignment: "center",
-              },
-            ],
+
           },
 
         },
       ],
-      interactionConfig: {
-        tooltip: {
-          fieldsToShow: {
-            weather: [
-              { name: "OBJECTID", format: null },
-              { name: "STATE", format: null },
-              { name: "EVENT_TYPE", format: null },
-              { name: "DAMAGE_PROPERTY", format: null },
-              { name: "EPISODE_NARRATIVE", format: null },
-            ],
-          },
-          compareMode: false,
-          compareType: "absolute",
-          enabled: true,
-        },
-        brush: { size: 0.5, enabled: false },
-        geocoder: { enabled: false },
-        coordinate: { enabled: false },
-      },
-      layerBlending: "normal",
-      splitMaps: [],
-      animationConfig: { currentTime: null, speed: 1 },
+
     },
 
   },
