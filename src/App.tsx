@@ -9,7 +9,8 @@ import { useDispatch } from "react-redux";
 // This is a custom react hook that allows us to fetch data. swr stands for stale-while-revalidate. Drastically simplifies the logic of fetching data in a react app! Created by the team behind Next.js
 import useSwr from "swr";
 
-import {make_fetch_arc_gis_url, default_options} from './utilities/get_data_from_arc_gis';
+import {make_fetch_arc_gis_url, default_function_params} from './utilities/get_data_from_arc_gis';
+import {config} from './utilities/map_config';
 
 // This utility function is used to parse the data from the API into the format that kepler.gl expects. That is from GeoJSON to object like: {fields : [], rows: []}
 import { processGeojson } from "kepler.gl/processors";
@@ -29,43 +30,7 @@ import KeplerGl from "kepler.gl";
 
 // Styling the points in the data
 
-let config = {
-  version: "v1",
-  config: {
-    visState: {
-      filters: [],
-      layers: [
-        {
-          // id: "o3uc96",
-          type: "geojson",
-          config: {
-            dataId: "weather",
-            label: "weather",
 
-            columns: { geojson: "_geojson" },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              strokeOpacity: 0.8,
-              thickness: 0.5,
-              strokeColor: null,
-              radius: 30,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              enableElevationZoomFactor: true,
-              stroked: false,
-              filled: true,
-              enable3d: false,
-              wireframe: false,
-            },
-          },
-        },
-      ],
-    },
-  },
-};
 
 const Map = () => {
   const getWidth = () =>
@@ -102,7 +67,7 @@ const Map = () => {
   // We will load the query data here temporarily!
   const dispatch = useDispatch();
   const { data } = useSwr("weather", async () => {
-    const { outFields, weather, state, year } = default_options;
+    const { outFields, weather, state, year } = default_function_params;
     const url = make_fetch_arc_gis_url(state, weather, year, outFields);
 
     const response = await fetch(

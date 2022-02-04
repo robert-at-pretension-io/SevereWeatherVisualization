@@ -6,51 +6,25 @@ import { addDataToMap } from "kepler.gl/actions";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-
 // import TextField from "@material-ui/core/TextField";
 // import Autocomplete from "@material-ui/lab/Autocomplete";
 // import { Controller } from "react-hook-form";
 
-import { UsaState, WeatherTypes, outFieldOptions } from '../models/query';
+import { UsaState, WeatherTypes, outFieldOptions } from "../models/arcgis_query_types";
 
-import { get_data_from_arc_gis, default_options } from '../utilities/get_data_from_arc_gis';
-
-
-let config = {
-  version: "v1",
-  config: {
-    visState: {
-      filters: [],
-      layers: [
-        {
-          type: "geojson",
-          config: {
-            dataId: "weather",
-            label: "weather",
-
-            columns: { geojson: "_geojson" },
-            isVisible: true,
-            visConfig: {
-              radius: 30,
-              stroked: false,
-              filled: true,
-            },
-          },
-        },
-      ],
-    },
-  },
-};
-
-
+import {
+  get_data_from_arc_gis,
+  default_function_params,
+} from "../utilities/get_data_from_arc_gis";
+import { config } from "../utilities/map_config";
 
 // import {DispatchDataToMap} from '../utilities/dispatch_data_to_map';
 
 type FormValues = {
-  state : UsaState,
-  weather_type : WeatherTypes,
-  out_fields : outFieldOptions[],
-  year : number,
+  state: UsaState;
+  weather_type: WeatherTypes;
+  out_fields: outFieldOptions[];
+  year: number;
 };
 
 // Need to get styled components from parent
@@ -59,55 +33,53 @@ const Header = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm<FormValues>();
 
-  const  onSubmit: SubmitHandler<FormValues> = async(formData) => {
+  const onSubmit: SubmitHandler<FormValues> = async (formData) => {
     console.log(formData);
 
     const { state, weather_type, out_fields, year } = formData;
 
-    let data = await get_data_from_arc_gis(state, weather_type, year,  out_fields);
-    
+    let data = await get_data_from_arc_gis(
+      state,
+      weather_type,
+      year,
+      out_fields
+    );
+
     console.log(data);
 
-        dispatch(
-          addDataToMap({
-            datasets: {
-              info: {
-                label: "weather",
-                id: "weather",
-              },
-              data,
-            },
-            option: {
-              centerMap: true,
-              readOnly: false,
-            },
-            config,
-          })
-        );
-      };
+    dispatch(
+      addDataToMap({
+        datasets: {
+          info: {
+            label: "weather",
+            id: "weather",
+          },
+          data,
+        },
+        option: {
+          centerMap: true,
+          readOnly: false,
+        },
+        config,
+      })
+    );
+  };
 
-      const { state, weather,  year } = default_options;
-
+  const { state, weather, year } = default_function_params;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("state",
-      {
-        required: true,
+      <input
+        {...register("state", {
+          required: true,
 
-
-        validate: (value) => {
-         return Object.values(UsaState).includes(value) || false;
-        },
-    
-
-      }
-      )}
-        defaultValue = {state}
+          validate: (value) => {
+            return Object.values(UsaState).includes(value) || false;
+          },
+        })}
+        defaultValue={state}
       />
-      <select {...register("weather_type")}
-        defaultValue = {weather}
-      >
+      <select {...register("weather_type")} defaultValue={weather}>
         <option value="">Select Weather Type</option>
         {Object.values(WeatherTypes).map((value) => (
           <option key={value} value={value}>
@@ -123,16 +95,17 @@ const Header = () => {
           </option>
         ))}
       </select>
-      <input {...register("year", {
-        required: true,
-        max: 2020,
-        min: 1950,
-      })} defaultValue={year}/>
+      <input
+        {...register("year", {
+          required: true,
+          max: 2020,
+          min: 1950,
+        })}
+        defaultValue={year}
+      />
       <input type="submit" />
     </form>
   );
 };
-
-
 
 export default Header;
