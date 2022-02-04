@@ -9,3 +9,4 @@ declare module 'kepler.gl/actions';
 // haha found out you can do this... that took a second haha...
 declare module 'kepler.gl/*';
 // declare module 'react-virtualized/dist/commonjs/AutoSizer';
+declare module 'styled-components';

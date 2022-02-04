@@ -21,7 +21,10 @@ import { config } from "../utilities/map_config";
 // Make the loading of data aparent to the user!
 import {trackPromise, usePromiseTracker} from 'react-promise-tracker';
 import ReactLoading from "react-loading";
-// import {DispatchDataToMap} from '../utilities/dispatch_data_to_map';
+// import { FormGroup } from "@material-ui/core";
+import { FormGroup, Label, Input, Form, FormInput } from '../styles/form_styles';
+
+
 
 type FormValues = {
   state: UsaState;
@@ -76,22 +79,29 @@ const Header = () => {
   return (
     (promiseInProgress === true) ? (
       <div>
-      
-        <p>Loading...</p>
-        <ReactLoading type={"bars"} color={"#444"} height={'200px'} width={'100%'} />
+          <ReactLoading type={"bars"} color={"#444"} height={'200px'} width={'100%'}  />
       </div>
     ) : (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
+
+    <Form onSubmit={handleSubmit(onSubmit)}>
+
+        <FormGroup>
+
+          <Label>State:</Label>
+          <FormInput
         {...register("state", {
           required: true,
-
+          
           validate: (value) => {
             return Object.values(UsaState).includes(value) || false;
           },
         })}
         defaultValue={state}
       />
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Weather Type:</Label>
       <select {...register("weather_type")} defaultValue={weather}>
         <option value="">Select Weather Type</option>
         {Object.values(WeatherTypes).map((value) => (
@@ -100,6 +110,10 @@ const Header = () => {
           </option>
         ))}
       </select>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Output Fields:</Label>
       <select {...register("out_fields")} multiple>
         <option value="">Select Fields</option>
         {Object.keys(outFieldOptions).map((key) => (
@@ -108,7 +122,11 @@ const Header = () => {
           </option>
         ))}
       </select>
-      <input
+      </FormGroup>
+
+      <FormGroup>
+        <Label>Year:</Label>
+      <FormInput
         {...register("year", {
           required: true,
           max: 2020,
@@ -116,8 +134,11 @@ const Header = () => {
         })}
         defaultValue={year}
       />
-      <input type="submit" />
-    </form>
+      </FormGroup>
+      <Input type="submit" />
+    </Form>
+
+    
     )
   );
 };
