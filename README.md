@@ -5,7 +5,7 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 * Add Kepler.gl (mapbox): ✅
 * Model ArcGIS query using typescript: ✅
 * Visualize data using Kepler.gl: ✅
-* Make custom kepler.gl component to make/submit query
+* ~~Make custom kepler.gl component to make/submit query~~ -> Write a separate component to make/submit query that uses redux action: ✅
 * Refactor
 * Write retrospective
 
@@ -31,5 +31,5 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 * ~~Get the app to resize if the window is resized.~~ fixed!
 
 *features* : 
-* Add component to change the info fetched from the API.
-* Figure out how to change the default displaying datapoints
+* Add component to change the info fetched from the API. : ✅
+* Figure out how to change the default displaying datapoints: ✅
