@@ -22,13 +22,14 @@ export const FormGroup = styled.div`
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    min-width: 200px;
+    min-width: 300px;
     max-width: 30%;
     min-height: 70px;
     justify-content: center;
     align-items: center;
     display: flex;
     padding: 10px;
+    margin: 10px;
     `;
 
 export const Label = styled.label`
@@ -71,7 +72,7 @@ export const Form = styled.form`
     color: palevioletred; 
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     width: 100%;
 `;
