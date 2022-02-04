@@ -5,8 +5,7 @@ import { addDataToMap } from "kepler.gl/actions";
 
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
-import useSwr from "swr";
+
 
 // import TextField from "@material-ui/core/TextField";
 // import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -14,7 +13,7 @@ import useSwr from "swr";
 
 import { UsaState, WeatherTypes, outFieldOptions } from '../models/query';
 
-import { get_data_from_arc_gis } from '../utilities/get_data_from_arc_gis';
+import { get_data_from_arc_gis, default_options } from '../utilities/get_data_from_arc_gis';
 
 
 let config = {
@@ -33,6 +32,8 @@ let config = {
             isVisible: true,
             visConfig: {
               radius: 30,
+              stroked: false,
+              filled: true,
             },
           },
         },
@@ -56,20 +57,17 @@ type FormValues = {
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { register, handleSubmit, control } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<FormValues>();
 
-  const useSubmit: SubmitHandler<FormValues> = (formData) => {
+  const  onSubmit: SubmitHandler<FormValues> = async(formData) => {
     console.log(formData);
 
     const { state, weather_type, out_fields, year } = formData;
 
-    const { data } = useSwr("weather", async () => {
-      return await get_data_from_arc_gis(state, weather_type, year,  out_fields);
-    });
+    let data = await get_data_from_arc_gis(state, weather_type, year,  out_fields);
     
+    console.log(data);
 
-    useEffect(() => {
-      if (data) {
         dispatch(
           addDataToMap({
             datasets: {
@@ -86,25 +84,50 @@ const Header = () => {
             config,
           })
         );
-      }
-    }, [dispatch, data]);
-  };
+      };
 
+      const { state, weather,  year } = default_options;
 
 
   return (
-    <form onSubmit={handleSubmit(useSubmit)}>
-      <input {...register("state")} />
-      <select {...register("weather_type")}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register("state",
+      {
+        required: true,
+
+
+        validate: (value) => {
+         return Object.values(UsaState).includes(value) || false;
+        },
+    
+
+      }
+      )}
+        defaultValue = {state}
+      />
+      <select {...register("weather_type")}
+        defaultValue = {weather}
+      >
         <option value="">Select Weather Type</option>
-        {Object.keys(WeatherTypes).map((key) => (
+        {Object.values(WeatherTypes).map((value) => (
+          <option key={value} value={value}>
+            {value}
+          </option>
+        ))}
+      </select>
+      <select {...register("out_fields")} multiple>
+        <option value="">Select Fields</option>
+        {Object.keys(outFieldOptions).map((key) => (
           <option key={key} value={key}>
             {key}
           </option>
         ))}
       </select>
-      <select {...register("out_fields")}/>
-      <input {...register("year")} />
+      <input {...register("year", {
+        required: true,
+        max: 2020,
+        min: 1950,
+      })} defaultValue={year}/>
       <input type="submit" />
     </form>
   );

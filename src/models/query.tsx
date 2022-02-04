@@ -1,27 +1,27 @@
 
-enum GeometryTypes {
-    Point = "Point",
-    LineString = "LineString",
-    Polygon = "Polygon",
-    // There are other types, but we don't need them for this project
-}
+// enum GeometryTypes {
+//     Point = "Point",
+//     LineString = "LineString",
+//     Polygon = "Polygon",
+//     // There are other types, but we don't need them for this project
+// }
 
-interface GeoJson {
-    type: string;
-    features: Feature[];
-}
+// interface GeoJson {
+//     type: string;
+//     features: Feature[];
+// }
 
-interface Feature {
-    type: string;
-    geometry: Geometry;
-    properties: any;
-}
+// interface Feature {
+//     type: string;
+//     geometry: Geometry;
+//     properties: any;
+// }
 
-interface Geometry {
-    type: GeometryTypes;
-    // These coordinates are either a single longitude/latitude pair, or an array of longitude/latitude pairs.
-    coordinates: number[][][] | number[][] | number[];
-}
+// interface Geometry {
+//     type: GeometryTypes;
+//     // These coordinates are either a single longitude/latitude pair, or an array of longitude/latitude pairs.
+//     coordinates: number[][][] | number[][] | number[];
+// }
 
 enum UsaState {
     Alabama = "Alabama",
@@ -121,4 +121,4 @@ enum outFieldOptions {
 
 
 
-export { GeometryTypes, UsaState, WeatherTypes, outFieldOptions };
+export { UsaState, WeatherTypes, outFieldOptions };

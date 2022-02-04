@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 // This is a custom react hook that allows us to fetch data. swr stands for stale-while-revalidate. Drastically simplifies the logic of fetching data in a react app! Created by the team behind Next.js
 import useSwr from "swr";
 
+import {make_fetch_arc_gis_url, default_options} from './utilities/get_data_from_arc_gis';
+
 // This utility function is used to parse the data from the API into the format that kepler.gl expects. That is from GeoJSON to object like: {fields : [], rows: []}
 import { processGeojson } from "kepler.gl/processors";
 
@@ -100,8 +102,11 @@ const Map = () => {
   // We will load the query data here temporarily!
   const dispatch = useDispatch();
   const { data } = useSwr("weather", async () => {
+    const { outFields, weather, state, year } = default_options;
+    const url = make_fetch_arc_gis_url(state, weather, year, outFields);
+
     const response = await fetch(
-      "https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/NOAA_Storm_Events_Database_view/FeatureServer/0/query?where=YEAR+%3D+2021+AND+STATE+%3D+%27North+Carolina%27&outFields=*&f=pgeojson"
+      url,
     );
     const data = await response.json();
 
@@ -147,6 +152,7 @@ const Map = () => {
 function App() {
   return (
     <div>
+      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
       <Header />
       <Map />
     </div>

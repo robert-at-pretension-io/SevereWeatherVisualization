@@ -6,13 +6,25 @@ import {WeatherTypes, UsaState, outFieldOptions} from '../models/query';
 
 const base_url = 'https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/NOAA_Storm_Events_Database_view/FeatureServer/0/query?'
 
+export const default_options = {
+    outFields: [outFieldOptions.DAMAGE_PROPERTY, outFieldOptions.EVENT_TYPE, outFieldOptions.EPISODE_NARRATIVE],
+    weather: WeatherTypes.HeavyRain,
+    state: UsaState.NorthCarolina,
+    year: 2020
+}
 
-function make_fetch_arc_gis_url(state : UsaState, weather : WeatherTypes, year : number, outFields : outFieldOptions[]) : string {
+export function make_fetch_arc_gis_url(state : UsaState, weather : WeatherTypes, year : number, outFields : outFieldOptions[]) : string {
 
     let joined_outFields = outFields.join(',');
 
-let query = `YEAR = ${year} AND EVENT_TYPE = ${weather} AND STATE = {state}`;
-return `${base_url}where=${query}&outFields=${joined_outFields}&f=pgeojson`;
+    // Good god... There must be another way... :'( If I had more time I would have looked at the API docs and figured out how to do this more elegantly. I'm sure there's a library out there somewhere... Uriencode doesn't work... 
+let query = `YEAR = ${year} ${weather ? "AND EVENT_TYPE ='" + weather +"'": ""} ${state ? " AND STATE = '" + state +"'": ""}`.replace(/\s/g, '+').replaceAll('=', '%3D');
+// query = query.replaceAll('=', '%3D');
+
+console.log(query);
+
+// let encoded_query = encodeURI(query);
+return `${base_url}where=${query}&outFields=${joined_outFields ? joined_outFields : "*"}&f=pgeojson`;
 }
 
 
