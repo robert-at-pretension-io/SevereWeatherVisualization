@@ -11,7 +11,7 @@ import { taskMiddleware } from "react-palm/tasks";
 // This makes it so the side panels aren't open when you reload the page.
 const modifiedKeplerGlReducer = keplerGlReducer.initialState({
     uiState: {
-        // activeSidePanel: null,
+        activeSidePanel: null,
         currentModal: null
     }
 });

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 
-// import KeplerGl from "kepler.gl";
-
 // This is a redux action
 import { addDataToMap } from "kepler.gl/actions";
 
@@ -15,8 +13,11 @@ import useSwr from "swr";
 import { processGeojson } from "kepler.gl/processors";
 
 // This is used to create a custom kepler.gl component. This component will be responsible for adding data search functionality to query the ArcGIS API.
-import {injectComponents, PanelHeaderFactory} from 'kepler.gl/components';
-// import Header from "./components/header";
+// import {injectComponents, PanelHeaderFactory} from 'kepler.gl/components';
+import Header from "./components/header";
+import KeplerGl from "kepler.gl";
+// import CustomPanelHeaderFactory from './components/test_header';
+
 // Found a great tutorial on how to use kepler.gl here:
 // https://codesandbox.io/s/bv0vb?file=/src/App.tsx
 
@@ -38,7 +39,7 @@ let config = {
           config: {
             dataId: "weather",
             label: "weather",
-            
+
             columns: { geojson: "_geojson" },
             isVisible: true,
             visConfig: {
@@ -57,14 +58,10 @@ let config = {
               enable3d: false,
               wireframe: false,
             },
-
           },
-
         },
       ],
-
     },
-
   },
 };
 
@@ -109,7 +106,9 @@ const Map = () => {
     const data = await response.json();
 
     // Took a while to figure out that the data needed to be in a certain format here... Going to check if kepler.gl has typescript support yet
-    return processGeojson(data);
+    let processed = processGeojson(data);
+    console.log(processed);
+    return processed;
   });
 
   useEffect(() => {
@@ -134,20 +133,6 @@ const Map = () => {
   }, [dispatch, data]);
 
 
-// This is the custom kepler.gl component that will be injected into the map.
-// Code found here: https://docs.kepler.gl/docs/api-reference/advanced-usages/replace-ui-component
-
-const CustomHeader = () => (<div>My kepler.gl app</div>);
-
-// create a factory
-const myCustomHeaderFactory = () => CustomHeader;
-
-// Inject custom header into Kepler.gl,
-const KeplerGl = injectComponents([
-  [PanelHeaderFactory, myCustomHeaderFactory]
-]);
-
-
 
   return (
     <KeplerGl
@@ -160,7 +145,12 @@ const KeplerGl = injectComponents([
 };
 
 function App() {
-  return <Map />;
+  return (
+    <div>
+      <Header />
+      <Map />
+    </div>
+  );
 }
 
 export default App;
