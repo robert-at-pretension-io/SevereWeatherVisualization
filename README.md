@@ -33,3 +33,4 @@ Anytime code is pushed to this repository, the code will be deployed automatical
 *features* : 
 * Add component to change the info fetched from the API. : ✅
 * Figure out how to change the default displaying datapoints: ✅
+* Added loading indicator: ✅

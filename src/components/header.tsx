@@ -18,6 +18,9 @@ import {
 } from "../utilities/get_data_from_arc_gis";
 import { config } from "../utilities/map_config";
 
+// Make the loading of data aparent to the user!
+import {trackPromise, usePromiseTracker} from 'react-promise-tracker';
+import ReactLoading from "react-loading";
 // import {DispatchDataToMap} from '../utilities/dispatch_data_to_map';
 
 type FormValues = {
@@ -31,6 +34,7 @@ type FormValues = {
 
 const Header = () => {
   const dispatch = useDispatch();
+  const {promiseInProgress} = usePromiseTracker();
   const { register, handleSubmit } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (formData) => {
@@ -38,12 +42,14 @@ const Header = () => {
 
     const { state, weather_type, out_fields, year } = formData;
 
-    let data = await get_data_from_arc_gis(
+    let data = await trackPromise(
+    get_data_from_arc_gis(
       state,
       weather_type,
       year,
       out_fields
-    );
+    )
+    )
 
     console.log(data);
 
@@ -68,6 +74,13 @@ const Header = () => {
   const { state, weather, year } = default_function_params;
 
   return (
+    (promiseInProgress === true) ? (
+      <div>
+      
+        <p>Loading...</p>
+        <ReactLoading type={"bars"} color={"#444"} height={'200px'} width={'100%'} />
+      </div>
+    ) : (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register("state", {
@@ -105,6 +118,7 @@ const Header = () => {
       />
       <input type="submit" />
     </form>
+    )
   );
 };
 

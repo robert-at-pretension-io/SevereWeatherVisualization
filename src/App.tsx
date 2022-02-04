@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-// This is a redux action
+// This is a redux action implemented by the kepler team
 import { addDataToMap } from "kepler.gl/actions";
 
 // Dispatching is used to send redux actions to update the state in the store from anywhere in the app... This means it'll be easier to extract to separate components when the app grows. For now, it's not essential to move outside of the App component because this is a small demo.
 import { useDispatch } from "react-redux";
 
-// This is a custom react hook that allows us to fetch data. swr stands for stale-while-revalidate. Drastically simplifies the logic of fetching data in a react app! Created by the team behind Next.js
+// This is a custom react hook that allows us to fetch data. swr stands for stale-while-revalidate. It simplifies the logic of fetching data in a react app! Created by the team behind Next.js
 import useSwr from "swr";
 
 import {make_fetch_arc_gis_url, default_function_params} from './utilities/get_data_from_arc_gis';
